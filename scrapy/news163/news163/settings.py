@@ -13,5 +13,6 @@ BOT_NAME = 'news163'
 SPIDER_MODULES = ['news163.spiders']
 NEWSPIDER_MODULE = 'news163.spiders'
 
+DEPTH_LIMIT = 2
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'news163 (+http://www.yourdomain.com)'

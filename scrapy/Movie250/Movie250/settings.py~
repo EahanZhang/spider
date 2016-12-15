@@ -1,0 +1,24 @@
+# -*- coding: utf-8 -*-
+
+# Scrapy settings for Movie250 project
+#
+# For simplicity, this file contains only the most important settings by
+# default. All the other settings are documented here:
+#
+#     http://doc.scrapy.org/en/latest/topics/settings.html
+#
+
+BOT_NAME = 'Movie250'
+
+SPIDER_MODULES = ['Movie250.spiders']
+NEWSPIDER_MODULE = 'Movie250.spiders'
+
+# Crawl responsibly by identifying yourself (and your website) on the user-agent
+#USER_AGENT = 'Movie250 (+http://www.yourdomain.com)'
+
+HEADER = {
+        }
+
+COOKIES = {
+        'll'="108288"; bid=H7Ea7rPKJW0; __utma=30149280.1940774216.1481767311.1481767311.1481767311.1; __utmb=30149280.5.10.1481767311; __utmz=30149280.1481767311.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __utmc=30149280; __utmt=1; _pk_id.100001.4cf6=787a0a3109137b45.1481768664.1.1481768664.1481768664.; _pk_ses.100001.4cf6=*; __utma=223695111.1128651840.1481768664.1481768664.1481768664.1; __utmb=223695111.0.10.1481768664; __utmc=223695111;
+        __utmz=223695111.1481768664.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)}
