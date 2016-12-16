@@ -3,8 +3,9 @@
 
 import scrapy
 from Movie250.items import Movie250Item
-from Movie250.settings import *
+from Movie250 import settings
 import time
+import urlparse
 
 class Movie250Spider(scrapy.Spider):
     #docstring for Movie250Spider
@@ -18,11 +19,12 @@ class Movie250Spider(scrapy.Spider):
 
     def start_requests(self):
         return [scrapy.FormRequest("https://movie.douban.com/top250/", \
-                headers = HEADER, \
-                cookies = COOKIES, \
+                headers = settings.HEADER, \
+                cookies = settings.COOKIES, \
                 callback = self.parse)]
 
     def parse(self, response):
+        print response.url
         for rel in response.xpath('//div[@class="item"]'):
             item = Movie250Item()
             item['rank'] = rel.xpath('div[@class="pic"]/em/text()').extract()
@@ -36,6 +38,11 @@ class Movie250Spider(scrapy.Spider):
         time.sleep(1)
         next_pages = response.xpath('//span[@class="next"]/a/@href').extract()
         if next_pages:
-            url = response.urljoin(next_pages[0])
+            url = urlparse.urljoin(response.url, next_pages[0])
             print "---------------url: %s", url
-            yield scrapy.Request(url, self.parse)
+            yield scrapy.Request(\
+                    url, \
+                    self.parse,\
+                    headers = settings.HEADER, \
+                    cookies = settings.COOKIES\
+                    )
