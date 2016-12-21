@@ -9,15 +9,21 @@ class News163Spider(scrapy.Spider):
     start_urls = [
             "http://roll.news.sina.com.cn/s/channel.php?ch=01#col=89&spec=&type=&ch=01&k=&offset_page=0&offset_num=0&num=60&asc=&page=1"
             ]
+    url = "http://roll.news.sina.com.cn/s/channel.php?ch=01#col=89&spec=&type=&ch=01&k=&offset_page=0&offset_num=0&num=60&asc=&page="
+    i = 2
+    while i < 275:
+        new_url = url + str(i)
+        start_urls.append(new_url)
+        i = i + 1
 
     def parse(self, response):
-        for rel in response.xpath('//*[@id="d_list"]/ul/li'):
+        for rel in response.xpath('//div[@id="d_list"]/ul/li'):
             item = News163Item()
-            item['programa'] = rel.xpath('span[@class="c_chl"]/a/text()').extract()
-            item['title'] = rel.xpath('span[@class="c_tit"]/a/text()').extract()
+            title = rel.xpath('span[@class="c_tit"]/a/text()').extract()
+            item['title'] = title[0].encode('utf-8')
             item['href'] = rel.xpath('span[@class="c_tit"]/a/@href').extract()
             item['date'] = rel.xpath('span[@class="c_time"]/text()').extract()
-            print "---------------%s", item['href']
+            print "---------------%s", item['title']
             yield item
         """
         num.NUM = num.NUM + 1
@@ -25,7 +31,6 @@ class News163Spider(scrapy.Spider):
         if num.NUM <= 275:
             new_url = url + str(num.NUM)
             yield scrapy.Request(new_url, self.parse)
-        """
         i = 2
         pages = []
         url = "http://roll.news.sina.com.cn/s/channel.php?ch=01#col=89&spec=&type=&ch=01&k=&offset_page=0&offset_num=0&num=60&asc=&page="
@@ -37,16 +42,18 @@ class News163Spider(scrapy.Spider):
             print "---------------------------next_page: %s", next_page
 
         for page in pages:
-            print page
-            yield scrapy.Request(page, self.parse)
-
+            #print page
+            yield scrapy.Request(page, self.parse_content)
+        """
+    '''
     def parse_content(self, response):
         print "-------------simple--------------------"
-        for rel in response.xpath('//*[@id="d_list"]/ul/li'):
+        for rel in response.xpath('//div[@id="d_list"]/ul/li'):
             item = News163Item()
-            item['programa'] = rel.xpath('span[1]/a[1]/text()').extract()
-            item['title'] = rel.xpath('span[@class="c_tit"]/a/text()').extract()
+            title = rel.xpath('span[@class="c_tit"]/a/text()').extract()
+            item['title'] = title[0].encode('utf-8')
             item['href'] = rel.xpath('span[@class="c_tit"]/a/@href').extract()
             item['date'] = rel.xpath('span[@class="c_time"]/text()').extract()
             print "---------------%s", item['href']
             yield item
+            '''

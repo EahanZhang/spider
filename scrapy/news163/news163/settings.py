@@ -16,3 +16,12 @@ NEWSPIDER_MODULE = 'news163.spiders'
 DEPTH_LIMIT = 2
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'news163 (+http://www.yourdomain.com)'
+
+ITEM_PIPELINES = {
+        'news163.pipelines.News163Pipeline' : 300
+}
+
+DB_HOST = "127.0.0.1"
+DB_PORT = 27017
+DB_NAME = "mydb"
+DB_DOCNAME = "news163"
